@@ -4,7 +4,7 @@ class ActionView::Base
   
   def render_partial_with_comments(options = {})
       r = %{<!-- render_begin '#{options[:partial]}' -->}
-      r << render_partial_without_comments(options)
+      r << (render_partial_without_comments(options) || "")
       r << %{<!-- render_end '#{options[:partial]}' -->}
       r.html_safe
   end
