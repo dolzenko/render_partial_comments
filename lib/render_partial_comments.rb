@@ -1,22 +1,12 @@
-# these should all be defined...
-ActionView::Base
-  
 class ActionView::Base
   
   private
   
-  $render_partial_comments ||= false
-  
-  # render_partial(partial_path, object_assigns = nil, local_assigns = {})
-  def render_partial_with_comments(partial_path, object_assigns = nil, local_assigns = {})
-    if $render_partial_comments
-      r = %{<!-- render_begin '#{partial_path}' -->}
-      r << render_partial_without_comments(partial_path, object_assigns, local_assigns)
-      r << %{<!-- render_end '#{partial_path}' -->}
-      r
-    else
-      render_partial_without_comments(partial_path, object_assigns, local_assigns)
-    end
+  def render_partial_with_comments(options = {})
+      r = %{<!-- render_begin '#{options[:partial]}' -->}
+      r << render_partial_without_comments(options)
+      r << %{<!-- render_end '#{options[:partial]}' -->}
+      r.html_safe
   end
 
   alias_method :render_partial_without_comments, :render_partial
